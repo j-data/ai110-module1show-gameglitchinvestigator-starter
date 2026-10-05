@@ -88,14 +88,14 @@ if st.session_state.status != "playing":
     st.stop()
 
 if submit:
-    st.session_state.attempts += 1
-
-    ok, guess_int, err = parse_guess(raw_guess)
+    ok, guess_int, err = parse_guess(raw_guess, low, high)
 
     if not ok:
         st.session_state.history.append(raw_guess)
         st.error(err)
     else:
+        # FIXED: Only count an attempt once the guess is valid, so typos don't use one up
+        st.session_state.attempts += 1
         st.session_state.history.append(guess_int)
 
         # FIXED: Removed code that turned the secret into a string on even attempts
