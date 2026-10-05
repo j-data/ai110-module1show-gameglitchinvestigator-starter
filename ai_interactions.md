@@ -28,9 +28,9 @@
 
 | Edge Case | Prompt Used | AI-Suggested Test | Did It Pass? | Your Reasoning |
 |-----------|-------------|-------------------|--------------|----------------|
-| Decimal guess (`"50.9"`) | "Identify three potential edge case inputs (e.g., negative numbers, decimals, or extremely large values) that might still break my game." | `test_decimal_guess_is_not_truncated_to_a_win`: `ok, value, _ = parse_guess("50.9")`, then `assert not ok or value != 50` | No: fails on current code (`parse_guess` returns `(True, 50, None)`) | `int(float(raw))` truncates instead of rounding or rejecting, so `50.9` becomes `50` and counts as a win against a secret of 50. |
-| Negative guess (`"-5"`) | Same prompt as above | `test_negative_guess_is_rejected`: `ok, _, _ = parse_guess("-5")`, then `assert ok is False` | No: fails on current code (`-5` is accepted) | `parse_guess` never checks the difficulty's range, so impossible guesses are accepted and use up an attempt. |
-| Extremely large guess (`"99999999999999999999"`) | Same prompt as above | `test_huge_guess_is_rejected`: `ok, _, _ = parse_guess("99999999999999999999")`, then `assert ok is False` | No: fails on current code (the huge number is accepted) | There is no upper bound, so an absurd value is accepted and costs the player an attempt, which hurts most on Hard's 5-attempt limit. |
+| Decimal guess (`"50.9"`) | "Identify three potential edge case inputs (e.g., negative numbers, decimals, or extremely large values) that might still break my game." | `test_decimal_guess_is_not_truncated_to_a_win`: `ok, value, _ = parse_guess("50.9")`, then `assert not ok or value != 50` | Yes. It passed after fixing `parse_guess` | `int(float(raw))` truncated instead of rounding or rejecting, so `50.9` became `50` and counted as a win against a secret of 50. |
+| Negative guess (`"-5"`) | Same prompt as above | `test_negative_guess_is_rejected`: `ok, _, _ = parse_guess("-5")`, then `assert ok is False` | Yes. It passed after fixing `parse_guess` | `parse_guess` initially never checked the difficulty's range, so impossible guesses were accepted and used up an attempt. |
+| Extremely large guess (`"99999999999999999999"`) | Same prompt as above | `test_huge_guess_is_rejected`: `ok, _, _ = parse_guess("99999999999999999999")`, then `assert ok is False` | Yes. It passed after fixing `parse_guess` | There was initially no upper bound, so very large values were accepted and cost the player an attempt, which hurt most on Hard's 5-attempt limit. |
 
 ---
 

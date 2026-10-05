@@ -26,6 +26,7 @@ It wrote the code, ran away, and now the game is unplayable.
 ## 📝 Document Your Experience
 
 - [x] **Describe the game's purpose.**
+  
   Game Glitch Investigator: The Impossible Guesser is a Streamlit number guessing game. The app picks a secret number within a range set by the difficulty (Easy: 1–20, Normal: 1–50, Hard: 1–100). You have a limited number of attempts to find it (Easy: 8, Normal: 6, Hard: 5). After each guess, the game tells you to go higher or lower and updates your score. You win by guessing the secret before you run out of attempts.
 
 - [x] **Detail which bugs you found.**
@@ -62,11 +63,16 @@ A sample game on **Normal** difficulty (range 1–50, 6 attempts). The secret nu
 ## 🧪 Test Results
 
 ```
-# Paste your pytest output here, e.g.:
-# pytest tests/
-# ========================= X passed in 0.XXs =========================
+python -m pytest -v
+
+
+tests/test_game_logic.py::test_winning_guess PASSED                           [ 14%]
+tests/test_game_logic.py::test_guess_too_high PASSED                          [ 28%]
+tests/test_game_logic.py::test_guess_too_low PASSED                           [ 42%]
+tests/test_game_logic.py::test_normal_and_hard_ranges_not_swapped PASSED      [ 57%]
+tests/test_game_logic.py::test_decimal_guess_is_not_truncated_to_a_win PASSED [ 71%]
+tests/test_game_logic.py::test_negative_guess_is_rejected PASSED              [ 85%]
+tests/test_game_logic.py::test_huge_guess_is_rejected PASSED                  [100%]
+
+============================== 7 passed in 0.02s ==============================
 ```
-
-## 🚀 Stretch Features
-
-- [ ] [If you choose to complete Challenge 4, describe the Enhanced UI changes here — a screenshot is optional]
